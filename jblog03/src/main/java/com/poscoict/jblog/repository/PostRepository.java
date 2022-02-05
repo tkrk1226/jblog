@@ -17,5 +17,9 @@ public class PostRepository {
 	public List<PostVo> findPostAll(Long categoryNo) {
 		return sqlSession.selectList("post.findPostAll", categoryNo);
 	}
+
+	public PostVo findPost(Long postNo) {
+		return sqlSession.selectOne("post.findPost", postNo);
+	}
 	
 }

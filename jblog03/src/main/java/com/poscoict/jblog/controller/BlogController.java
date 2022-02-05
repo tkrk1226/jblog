@@ -18,18 +18,24 @@ import com.poscoict.jblog.vo.PostVo;
 import com.poscoict.jblog.vo.UserVo;
 
 @Controller
-@RequestMapping("/{blogId}")
+@RequestMapping("/{blogId:(?!assets).*}")
 public class BlogController {
 
 	@Autowired
 	private BlogService blogService;
 	
-	@RequestMapping(value="")
+	@RequestMapping(value={"/{categoryNo}/{postNo}", ""})
 	public String main(@PathVariable("blogId") String blogId,
-			@RequestParam(value = "categoryNo", required = true, defaultValue = "-1") Long categoryNo,
+			@PathVariable(required = false) Long categoryNo,
+			@PathVariable(required = false) Long postNo,
 			Model model, @AuthUser UserVo authUser) {
 		
-		Map<String, Object> map = blogService.getBlog(blogId, categoryNo);
+//		System.out.println("===============================================");
+//		System.out.println("categoryNo : " + categoryNo);
+//		System.out.println("postNo : " + postNo);
+//		System.out.println("===============================================");
+		
+		Map<String, Object> map = blogService.getBlog(blogId, categoryNo, postNo);
 		
 		if(map == null) {
 			return "redirect:/";

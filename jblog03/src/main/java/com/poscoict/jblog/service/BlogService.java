@@ -26,11 +26,13 @@ public class BlogService {
 	@Autowired
 	private PostRepository postRepository;
 	
-	public Map<String,Object> getBlog(String blogId, Long paramNo) {
+	public Map<String, Object> getBlog(String blogId, Long paramCategoryNo, Long paramPostNo) {
 
 		Map<String, Object>map = new HashMap<>();
 		
-		Long categoryNo = paramNo;
+		Long categoryNo = paramCategoryNo;
+		Long postNo = paramPostNo;
+		
 		BlogVo blogVo = blogRepository.findBlog(blogId);
 		
 		if(blogVo == null) {
@@ -40,14 +42,22 @@ public class BlogService {
 		List<CategoryVo> categoryList = categoryRepository.findCategoryAll(blogId);
 		
 		// 입력 안받으면 그냥 제일 처음 만들어진 카테고리를 불러온다.
-		if(categoryNo == -1) {
+		if(categoryNo == null) {
 			categoryNo = categoryList.get(0).getNo();
 		}
+		
 		List<PostVo> postList = postRepository.findPostAll(categoryNo);
+		
+		if(postNo == null) {
+			postNo = postList.get(0).getNo();
+		}
+				
+		PostVo postVo = postRepository.findPost(postNo);
 		
 		map.put("blogVo", blogVo);
 		map.put("categorylist", categoryList);
 		map.put("postList", postList);
+		map.put("postVo", postVo);
 		
 		return map;
 	} 

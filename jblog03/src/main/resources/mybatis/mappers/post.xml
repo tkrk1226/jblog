@@ -9,4 +9,23 @@
 		]]>
 	</select>
 	
+	<select id="findPost" parameterType="long" resultType="postvo">
+	
+	<choose>
+		<when test="_parameter == null">
+		<![CDATA[
+		select no, title, contents, reg_date as regDate from post where no = -1
+		]]>
+		</when>
+		<otherwise>
+		<![CDATA[
+		select no, title, contents, reg_date as regDate from post where no = #{_parameter}
+		]]>
+		</otherwise>
+	</choose>
+	
+	
+
+	</select>
+	
 </mapper>
