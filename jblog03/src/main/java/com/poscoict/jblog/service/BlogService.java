@@ -39,19 +39,29 @@ public class BlogService {
 			return null;
 		}
 		
-		List<CategoryVo> categoryList = categoryRepository.findCategoryAll(blogId);
+		List<CategoryVo> categoryList = categoryRepository.findCategoryAll(blogId);		
+		List<Long> categoryNoList = categoryRepository.findCategoryNo(blogId);
+
+		if(categoryNo != null) {
+			for(Long checkNo : categoryNoList) {
+				if(checkNo == categoryNo) {
+					break;
+				}
+			}
+			categoryNo = null;
+		}
 		
 		// 입력 안받으면 그냥 제일 처음 만들어진 카테고리를 불러온다.
 		if(categoryNo == null) {
 			categoryNo = categoryList.get(0).getNo();
 		}
-		
+				
 		List<PostVo> postList = postRepository.findPostAll(categoryNo);
 		
 		if(postNo == null) {
 			postNo = postList.get(0).getNo();
 		}
-				
+		
 		PostVo postVo = postRepository.findPost(postNo);
 		
 		map.put("blogVo", blogVo);

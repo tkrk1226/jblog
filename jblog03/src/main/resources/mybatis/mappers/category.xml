@@ -20,4 +20,11 @@
 		select no, name, description from category where blog_id = #{_parameter} order by no asc;
 		]]>
 	</select>
+	
+	<select id="findCategoryNo" parameterType="string" resultType="long">
+		<![CDATA[
+		select no from category where blog_id = #{_parameter} order by no asc;
+		]]>		
+	</select>
+	
 </mapper>

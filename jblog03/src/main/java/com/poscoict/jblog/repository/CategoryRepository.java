@@ -25,5 +25,9 @@ public class CategoryRepository {
 	public List<CategoryVo> findCategoryAll(String blogId) {
 		return sqlSession.selectList("category.findCategoryAll", blogId);
 	}
+	
+	public List<Long> findCategoryNo(String blogId){
+		return sqlSession.selectList("category.findCategoryNo", blogId);
+	}
 
 }

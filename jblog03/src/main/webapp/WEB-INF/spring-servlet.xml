@@ -45,6 +45,7 @@
 	</mvc:interceptors>
 	
 	<!-- mvc url-resource mapping -->
+	<mvc:resources mapping="/images/**" location="file:/upload-images/" />
 		
 	<!-- ViewResolver -->
 	<bean id="viewResolver" 

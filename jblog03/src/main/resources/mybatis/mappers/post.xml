@@ -5,7 +5,7 @@
 
 	<select id="findPostAll" parameterType="long" resultType="postvo">
 		<![CDATA[
-		select no, title, contents, reg_date as regDate from post where category_no = #{_parameter}
+		select no, title, contents, date_format(reg_date, '%Y/%m/%d') as regDate from post where category_no = #{_parameter}
 		]]>
 	</select>
 	
@@ -14,12 +14,12 @@
 	<choose>
 		<when test="_parameter == null">
 		<![CDATA[
-		select no, title, contents, reg_date as regDate from post where no = -1
+		select no, title, contents, date_format(reg_date, '%Y/%m/%d') as regDate from post where no = -1
 		]]>
 		</when>
 		<otherwise>
 		<![CDATA[
-		select no, title, contents, reg_date as regDate from post where no = #{_parameter}
+		select no, title, contents, date_format(reg_date, '%Y/%m/%d') as regDate from post where no = #{_parameter}
 		]]>
 		</otherwise>
 	</choose>
