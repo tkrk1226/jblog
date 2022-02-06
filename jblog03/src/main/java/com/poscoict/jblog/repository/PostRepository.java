@@ -22,4 +22,7 @@ public class PostRepository {
 		return sqlSession.selectOne("post.findPost", postNo);
 	}
 	
+	public Boolean insert(PostVo postVo) {
+		return 1 == sqlSession.insert("post.insert", postVo);
+	}
 }

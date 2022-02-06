@@ -17,5 +17,6 @@
 				<li><a href="${pageContext.request.contextPath}/user/logout">로그아웃</a></li>	
 			</c:otherwise>
 		</c:choose>
+			<li><a href="${pageContext.request.contextPath}/${blogVo.userId}">블로그 메인</a></li>	
 	</ul>
 </div>

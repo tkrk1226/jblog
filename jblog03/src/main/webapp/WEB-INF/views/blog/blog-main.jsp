@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<% pageContext.setAttribute("newline", "\n"); %>
 <!doctype html>
 <html>
 <head>
@@ -17,12 +18,12 @@
 				<div class="blog-content">
 					<h4>${postVo.title}</h4>
 					<p>
-						${postVo.contents}
+						${fn:replace(postVo.contents, newline, "<br/>") }
 					<p>
 				</div>
 				<ul class="blog-list">
 					<c:forEach items="${postList}" var="vo" varStatus="status">
-					<li><a href="${pageContext.request.contextPath}/${blogVo.userId}/${postVo.categoryNo}/${postVo.no}">${vo.title}</a> <span>${vo.regDate}</span>	</li>
+					<li><a href="${pageContext.request.contextPath}/${blogVo.userId}/${vo.categoryNo}/${vo.no}">${vo.title}</a> <span>${vo.regDate}</span>	</li>
 					</c:forEach>
 				</ul>
 			</div>
@@ -38,7 +39,7 @@
 			<h2>카테고리</h2>
 			<ul>
 				<c:forEach items="${categorylist}" var="vo" varStatus="status">
-					<li><a href="${pageContext.request.contextPath}/${blogVo.userId}/${postVo.categoryNo}">${vo.name}</a></li>
+					<li><a href="${pageContext.request.contextPath}/${blogVo.userId}/${vo.no}">${vo.name}</a></li>
 				</c:forEach>
 			</ul>
 		</div>

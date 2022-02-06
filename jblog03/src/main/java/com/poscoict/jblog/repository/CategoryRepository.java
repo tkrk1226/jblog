@@ -1,6 +1,7 @@
 package com.poscoict.jblog.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,4 +31,12 @@ public class CategoryRepository {
 		return sqlSession.selectList("category.findCategoryNo", blogId);
 	}
 
+	public List<CategoryVo> findCategoryNoAndName(String blogId){
+		return sqlSession.selectList("category.findCategoryNoAndName", blogId);
+	}
+	
+	public List<Map> findCategoryAndPostnum(String blogId) {
+		return sqlSession.selectList("category.findCategoryAndPostnum", blogId);
+	}
+	
 }

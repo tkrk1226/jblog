@@ -17,13 +17,25 @@
 	
 	<select id="findCategoryAll" parameterType="string" resultType="categoryvo">
 		<![CDATA[
-		select no, name, description from category where blog_id = #{_parameter} order by no asc;
+		select no, name, description from category where blog_id = #{_parameter} order by no asc
 		]]>
 	</select>
 	
 	<select id="findCategoryNo" parameterType="string" resultType="long">
 		<![CDATA[
-		select no from category where blog_id = #{_parameter} order by no asc;
+		select no from category where blog_id = #{_parameter} order by no asc
+		]]>		
+	</select>
+	
+	<select id="findCategoryNoAndName" parameterType="string" resultType="categoryvo">
+		<![CDATA[
+		select no, name from category where blog_id = #{_parameter} order by no asc
+		]]>		
+	</select>
+	
+	<select id="findCategoryAndPostnum" parameterType="string" resultType="map">
+		<![CDATA[
+		select c.no, c.name, count(*) as postCount, c.description from category as c JOIN post as p ON c.no = p.category_no where c.blog_id = #{_parameter} group by p.category_no order by c.no asc
 		]]>		
 	</select>
 	
