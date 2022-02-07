@@ -21,7 +21,6 @@ import com.poscoict.jblog.vo.PostVo;
 import com.poscoict.jblog.vo.UserVo;
 
 @Controller
-//@RequestMapping("/{blogId:(?!assets[images]).*}")
 @RequestMapping("/{blogId:(?!assets|images).*}")
 public class BlogController {
 
@@ -54,7 +53,23 @@ public class BlogController {
 	// 뒤에 어드민 기능들 활용할 때 Path 다시 지정해줘야함
 	
 	@RequestMapping(value={"/admin", "/admin/basic"}, method=RequestMethod.GET)
-	public String basic(@PathVariable("blogId") String blogId) {
+	public String basic(@PathVariable("blogId") String blogId, Model model, @AuthUser UserVo authUser) {
+		
+		System.out.println("======================================================================");
+		System.out.println(authUser);
+		System.out.println("======================================================================");
+		
+		if(authUser == null || !blogId.equals(authUser.getId())) {
+			return "redirect:/";
+		}
+		
+		BlogVo blogVo = blogService.getBlog(blogId);
+		
+		if(blogVo == null) {
+			return "redirect:/";
+		}
+		
+		model.addAttribute("blogVo", blogVo);
 		
 		return "blog/blog-admin-basic";
 	}
@@ -62,6 +77,10 @@ public class BlogController {
 	@RequestMapping(value="/admin/basic", method=RequestMethod.POST)
 	public String basic(@PathVariable("blogId") String blogId, BlogVo blogVo,
 			@RequestParam(value="logo-file") MultipartFile multipartFile, @AuthUser UserVo authUser) {
+		
+		if(authUser == null || !blogId.equals(authUser.getId())) {
+			return "redirect:/";
+		}
 		
 		Boolean result = blogService.updateBlog(blogVo, multipartFile);
 		
@@ -71,6 +90,10 @@ public class BlogController {
 	@RequestMapping(value={"/admin/category", "/admin/category/{categoryNo}"}, method=RequestMethod.GET)
 	public String category(@PathVariable("blogId") String blogId, Model model,
 			@PathVariable(required = false) Long categoryNo, @AuthUser UserVo authUser) {
+		
+		if(authUser == null || !blogId.equals(authUser.getId())) {
+			return "redirect:/";
+		}
 		
 		Map<String, Object> map = blogService.getBlog(authUser.getId(), categoryNo);
 		
@@ -87,6 +110,10 @@ public class BlogController {
 	public String addCategory(@PathVariable("blogId") String blogId, CategoryVo categoryVo,
 			@AuthUser UserVo authUser) {
 		
+		if(authUser == null || !blogId.equals(authUser.getId())) {
+			return "redirect:/";
+		}
+		
 		categoryService.addCategory(categoryVo);
 		
 		return "redirect:/" + authUser.getId() + "/admin/category";
@@ -97,6 +124,10 @@ public class BlogController {
 			@PathVariable("categoryNo") Long categoryNo,
 			@AuthUser UserVo authUser) {
 
+		if(authUser == null || !blogId.equals(authUser.getId())) {
+			return "redirect:/";
+		}
+		
 		Boolean result = categoryService.deleteCategory(authUser.getId(), categoryNo);
 		
 		if(!result) {
@@ -107,14 +138,32 @@ public class BlogController {
 	}
 	
 	@RequestMapping(value="/admin/write", method=RequestMethod.GET)
-	public String write(@PathVariable("blogId") String blogId, Model model) {
+	public String write(@PathVariable("blogId") String blogId, Model model, @AuthUser UserVo authUser) {
+		
+		if(authUser == null || !blogId.equals(authUser.getId())) {
+			return "redirect:/";
+		}
+		
+		BlogVo blogVo = blogService.getBlog(blogId);
+		
+		if(blogVo == null) {
+			return "redirect:/";
+		}
+		
 		model.addAttribute("categoryNoAndNameList", categoryService.getCategoryNoAndNameList(blogId));
+		model.addAttribute("blogVo", blogVo);
+		
 		return "blog/blog-admin-write";
 	}
 	
 	@RequestMapping(value="/admin/write", method=RequestMethod.POST)
 	public String write(@PathVariable("blogId") String blogId, PostVo postVo,
 			@AuthUser UserVo authUser) {
+		
+		if(authUser == null || !blogId.equals(authUser.getId())) {
+			return "redirect:/";
+		}
+		
 		Boolean result = postService.addPost(postVo);
 		return "redirect:/" + authUser.getId() + "/admin/category";
 	}	

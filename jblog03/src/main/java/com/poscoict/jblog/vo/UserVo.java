@@ -2,9 +2,9 @@ package com.poscoict.jblog.vo;
 
 public class UserVo {
 
-	String id;
-	String name;
-	String password;
+	private String id;
+	private String name;
+	private String password;
 
 	public String getId() {
 		return id;

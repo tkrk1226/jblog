@@ -2,11 +2,12 @@ package com.poscoict.jblog.vo;
 
 public class CategoryVo {
 
-	Long no;
-	String name;
-	String description;
-	String blogId;
-
+	private Long no;
+	private String name;
+	private String description;
+	private String blogId;
+	private Long postCount;
+	
 	public Long getNo() {
 		return no;
 	}
@@ -31,10 +32,15 @@ public class CategoryVo {
 	public void setBlogId(String blogId) {
 		this.blogId = blogId;
 	}
-
+	public Long getPostCount() {
+		return postCount;
+	}
+	public void setPostCount(Long postCount) {
+		this.postCount = postCount;
+	}
 	@Override
 	public String toString() {
-		return "CategoryVo [no=" + no + ", name=" + name + ", description=" + description + ", blogId=" + blogId + "]";
+		return "CategoryVo [no=" + no + ", name=" + name + ", description=" + description + ", blogId=" + blogId
+				+ ", postCount=" + postCount + "]";
 	}
-
 }

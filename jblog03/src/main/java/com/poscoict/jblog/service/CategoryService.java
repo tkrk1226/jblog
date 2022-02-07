@@ -23,7 +23,7 @@ public class CategoryService {
 		return categoryRepository.insert(categoryVo);
 	}
 	
-	public List<Map<String,Object>> showCategory(String blogId){
+	public List<CategoryVo> showCategory(String blogId){
 		return categoryRepository.findCategoryAndPostnum(blogId);
 	}
 	

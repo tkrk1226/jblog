@@ -2,11 +2,11 @@ package com.poscoict.jblog.vo;
 
 public class PostVo {
 
-	Long no;
-	String title;
-	String contents;
-	String regDate;
-	Long categoryNo;
+	private Long no;
+	private String title;
+	private String contents;
+	private String regDate;
+	private Long categoryNo;
 
 	public Long getNo() {
 		return no;

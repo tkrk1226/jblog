@@ -2,9 +2,9 @@ package com.poscoict.jblog.vo;
 
 public class BlogVo {
 
-	String title;
-	String logo;
-	String userId;
+	private String title;
+	private String logo;
+	private String userId;
 	
 	public String getTitle() {
 		return title;

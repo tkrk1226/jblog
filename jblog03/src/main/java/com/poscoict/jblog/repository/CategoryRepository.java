@@ -40,7 +40,7 @@ public class CategoryRepository {
 		return sqlSession.selectList("category.findCategoryNoAndName", blogId);
 	}
 	
-	public List<Map<String, Object>> findCategoryAndPostnum(String blogId) {
+	public List<CategoryVo> findCategoryAndPostnum(String blogId) {
 		return sqlSession.selectList("category.findCategoryAndPostnum", blogId);
 	}
 	

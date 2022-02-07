@@ -33,7 +33,7 @@
 		]]>		
 	</select>
 	
-	<select id="findCategoryAndPostnum" parameterType="string" resultType="map">
+	<select id="findCategoryAndPostnum" parameterType="string" resultType="categoryvo">
 		<![CDATA[
 		select c.no, c.name, c.description, count(p.no) as postCount from category as c left join post as p on c.no = p.category_no where c.blog_id = #{_parameter} group by c.no order by c.no asc
 		]]>		

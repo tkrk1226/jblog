@@ -28,15 +28,15 @@
 		      			<th>삭제</th>      			
 		      		</tr>
 					 
-					<c:forEach items="${categoryInfo}" var="info" varStatus="status">
+					<c:forEach items="${categoryList}" var="vo" varStatus="status">
 						<tr>
 							<td>${status.count}</td>
-							<td>${info.name}</td>
-							<td>${info.postCount}</td>
-							<td>${info.description}</td>
+							<td>${vo.name}</td>
+							<td>${vo.postCount}</td>
+							<td>${vo.description}</td>
 							<td>
-								<c:if test="${info.postCount eq 0}">
-									<a href="${pageContext.request.contextPath}/${authUser.id}/admin/category/delete/${info.no}">
+								<c:if test="${vo.postCount eq 0}">
+									<a href="${pageContext.request.contextPath}/${authUser.id}/admin/category/delete/${vo.no}">
 										<img src="${pageContext.request.contextPath}/assets/images/delete.jpg">
 									</a>
 								</c:if>

@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,9 +33,6 @@ public class BlogService {
 	
 	@Autowired
 	private PostRepository postRepository;
-	
-	@Autowired
-	private HttpSession session;
 	
 	public Map<String, Object> getBlog(String blogId, Long paramCategoryNo, Long paramPostNo) {
 
@@ -82,8 +77,6 @@ public class BlogService {
 		
 		PostVo postVo = postRepository.findPost(postNo);
 		
-		session.setAttribute("blogVo", blogVo);
-		
 		map.put("blogVo", blogVo);
 		map.put("categorylist", categoryList);
 		map.put("postList", postList);
@@ -104,7 +97,7 @@ public class BlogService {
 			return null;
 		}
 		
-		List<CategoryVo> categoryList = categoryRepository.findCategoryAll(blogId);		
+		List<CategoryVo> categoryList = categoryRepository.findCategoryAndPostnum(blogId);		
 		List<Long> categoryNoList = categoryRepository.findCategoryNo(blogId);
 
 		if(categoryNo != null) {
@@ -123,15 +116,27 @@ public class BlogService {
 				
 		List<PostVo> postList = postRepository.findPostAll(categoryNo);
 		
-		List<Map<String, Object>> categoryInfo = categoryRepository.findCategoryAndPostnum(blogId);
-		
+		System.out.println(blogVo);
+		System.out.println(categoryList);
+		System.out.println(postList);
+				
 		map.put("blogVo", blogVo);
-		map.put("categoryInfo", categoryInfo);
+		map.put("categoryList", categoryList);
 		map.put("postList", postList);
 		
 		return map;
 	}
 
+	public BlogVo getBlog(String blogId) {
+		BlogVo blogVo = blogRepository.findBlog(blogId);
+		
+		if(blogVo == null) {
+			return null;
+		}
+	
+		return blogVo;
+	}	
+	
 	public Boolean updateBlog(BlogVo blogVo, MultipartFile multipartFile) {
 
 		String url = restore(multipartFile);
@@ -141,7 +146,6 @@ public class BlogService {
 		}
 		
 		if(blogRepository.update(blogVo)) {
-			session.setAttribute("blogVo", blogRepository.findBlog(blogVo.getUserId()));
 			return true;
 		} else {
 			return false;
@@ -192,5 +196,7 @@ public class BlogService {
 		filename += "." + extName;
 		
 		return filename;
-	}	
+	}
+
+
 }
