@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,10 @@ public class CategoryRepository {
 	public Boolean insert(CategoryVo categoryVo) {
 		return 1 == sqlSession.insert("category.insert", categoryVo);
 	}
+
+	public Boolean delete(Long categoryNo) {
+		return 1 == sqlSession.delete("category.delete", categoryNo);
+	}
 	
 	public List<CategoryVo> findCategoryAll(String blogId) {
 		return sqlSession.selectList("category.findCategoryAll", blogId);
@@ -35,7 +40,7 @@ public class CategoryRepository {
 		return sqlSession.selectList("category.findCategoryNoAndName", blogId);
 	}
 	
-	public List<Map> findCategoryAndPostnum(String blogId) {
+	public List<Map<String, Object>> findCategoryAndPostnum(String blogId) {
 		return sqlSession.selectList("category.findCategoryAndPostnum", blogId);
 	}
 	

@@ -27,18 +27,7 @@
 		      			<th>설명</th>
 		      			<th>삭제</th>      			
 		      		</tr>
-					<c:forEach items="${categorylist}" var="info" varStatus="status">
-						<tr>
-							<td>${status.count}</td>
-							<td>${info.name}</td>
-							<td>${info.postCount}</td>
-							<td>${info.description}</td>
-							<td>
-							<c:if test="${info.postCount eq 0}"><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></c:if>
-							</td>
-						</tr>
-					</c:forEach>
-					<!--  
+					 
 					<c:forEach items="${categoryInfo}" var="info" varStatus="status">
 						<tr>
 							<td>${status.count}</td>
@@ -46,11 +35,15 @@
 							<td>${info.postCount}</td>
 							<td>${info.description}</td>
 							<td>
-							<c:if test="${info.postCount eq 0}"><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></c:if>
+								<c:if test="${info.postCount eq 0}">
+									<a href="${pageContext.request.contextPath}/${authUser.id}/admin/category/delete/${info.no}">
+										<img src="${pageContext.request.contextPath}/assets/images/delete.jpg">
+									</a>
+								</c:if>
 							</td>
 						</tr>
 					</c:forEach>	
-					-->				  
+									  
 				</table>
       	
       			<h4 class="n-c">새로운 카테고리 추가</h4>

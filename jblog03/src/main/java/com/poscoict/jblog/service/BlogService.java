@@ -123,19 +123,11 @@ public class BlogService {
 				
 		List<PostVo> postList = postRepository.findPostAll(categoryNo);
 		
-		List<Map> categoryInfo = categoryRepository.findCategoryAndPostnum(blogId);
-		
-//		System.out.println("===============================================");
-//		System.out.println("findCategoryAndPostnum : " + categoryRepository.findCategoryAndPostnum(blogId));
-//		System.out.println("===============================================");
+		List<Map<String, Object>> categoryInfo = categoryRepository.findCategoryAndPostnum(blogId);
 		
 		map.put("blogVo", blogVo);
-		map.put("categorylist", categoryList);
 		map.put("categoryInfo", categoryInfo);
-		
-		
 		map.put("postList", postList);
-
 		
 		return map;
 	}

@@ -35,8 +35,14 @@
 	
 	<select id="findCategoryAndPostnum" parameterType="string" resultType="map">
 		<![CDATA[
-		select c.no, c.name, count(*) as postCount, c.description from category as c JOIN post as p ON c.no = p.category_no where c.blog_id = #{_parameter} group by p.category_no order by c.no asc
+		select c.no, c.name, c.description, count(p.no) as postCount from category as c left join post as p on c.no = p.category_no where c.blog_id = #{_parameter} group by c.no order by c.no asc
 		]]>		
 	</select>
+	
+	<delete id="delete" parameterType="long">
+		<![CDATA[
+		delete from category where no = #{_parameter}
+		]]>	
+	</delete>
 	
 </mapper>

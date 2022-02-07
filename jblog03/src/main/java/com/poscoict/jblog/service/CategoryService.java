@@ -23,8 +23,23 @@ public class CategoryService {
 		return categoryRepository.insert(categoryVo);
 	}
 	
-	public List<Map> showCategory(String blogId){
+	public List<Map<String,Object>> showCategory(String blogId){
 		return categoryRepository.findCategoryAndPostnum(blogId);
 	}
 	
+	public Boolean deleteCategory(String blogId, Long categoryNo) {
+		
+		if(blogId == null || categoryNo == null) {
+			return false;
+		}
+		
+		List<Long> categoryNoList = categoryRepository.findCategoryNo(blogId);
+		
+		for(Long checkNo : categoryNoList) {
+			if(checkNo == categoryNo) {				
+				return categoryRepository.delete(categoryNo);
+			}
+		}
+		return false;
+	}
 }

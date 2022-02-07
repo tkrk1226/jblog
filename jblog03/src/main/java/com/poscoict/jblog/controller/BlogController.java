@@ -92,9 +92,16 @@ public class BlogController {
 		return "redirect:/" + authUser.getId() + "/admin/category";
 	}
 	
-	@RequestMapping(value="/admin/category/delete", method=RequestMethod.POST)
-	public String deleteCategory(@PathVariable("blogId") String blogId, CategoryVo categoryVo,
+	@RequestMapping(value="/admin/category/delete/{categoryNo}")
+	public String deleteCategory(@PathVariable("blogId") String blogId,
+			@PathVariable("categoryNo") Long categoryNo,
 			@AuthUser UserVo authUser) {
+
+		Boolean result = categoryService.deleteCategory(authUser.getId(), categoryNo);
+		
+		if(!result) {
+			return "redirect:/";
+		}
 		
 		return "redirect:/" + authUser.getId() + "/admin/category";
 	}
