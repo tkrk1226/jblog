@@ -21,9 +21,9 @@
 		]]>
 	</select>
 	
-	<select id="findCategoryNo" parameterType="string" resultType="long">
+	<select id="findCategoryNo" parameterType="map" resultType="long">
 		<![CDATA[
-		select no from category where blog_id = #{_parameter} order by no asc
+		select no from category where blog_id = #{blogId} and no = #{categoryNo}
 		]]>		
 	</select>
 	
@@ -33,15 +33,21 @@
 		]]>		
 	</select>
 	
+	<select id="findCategoryCount" parameterType="string" resultType="long">
+		<![CDATA[
+		select count(*) from category where blog_id = #{_parameter}
+		]]>		
+	</select>
+	
 	<select id="findCategoryAndPostnum" parameterType="string" resultType="categoryvo">
 		<![CDATA[
 		select c.no, c.name, c.description, count(p.no) as postCount from category as c left join post as p on c.no = p.category_no where c.blog_id = #{_parameter} group by c.no order by c.no asc
 		]]>		
 	</select>
 	
-	<delete id="delete" parameterType="long">
+	<delete id="delete" parameterType="map">
 		<![CDATA[
-		delete from category where no = #{_parameter}
+		delete from category where no = #{categoryNo} and blog_id = #{blogId}
 		]]>	
 	</delete>
 	

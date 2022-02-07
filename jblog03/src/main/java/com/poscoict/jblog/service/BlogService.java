@@ -47,24 +47,16 @@ public class BlogService {
 			return null;
 		}
 		
-		List<CategoryVo> categoryList = categoryRepository.findCategoryAll(blogId);		
-		List<Long> categoryNoList = categoryRepository.findCategoryNo(blogId);
+		List<CategoryVo> categoryList = categoryRepository.findCategoryAll(blogId);	
 		
 		if(categoryNo != null) {
-			Boolean checkCategory = false;
-			for(Long checkNo : categoryNoList) {
-				if(categoryNo.equals(checkNo)) {
-					checkCategory = true;
-					break;
-				}
-			}
-			
-			if(!checkCategory) {
+			Long categoryNoCheck = categoryRepository.findCategoryNo(blogId, categoryNo);
+			if(!categoryNo.equals(categoryNoCheck)) {			
 				categoryNo = null;
 			}
 		}
-		
-		// 입력 안받으면 그냥 제일 처음 만들어진 카테고리를 불러온다.
+
+		// 입력 안받거나 잘못된 값이 들어온 경우 그냥 제일 처음 만들어진 카테고리를 불러온다.
 		if(categoryNo == null) {
 			categoryNo = categoryList.get(0).getNo();
 		}
@@ -98,31 +90,27 @@ public class BlogService {
 		}
 		
 		List<CategoryVo> categoryList = categoryRepository.findCategoryAndPostnum(blogId);		
-		List<Long> categoryNoList = categoryRepository.findCategoryNo(blogId);
-
+		
 		if(categoryNo != null) {
-			for(Long checkNo : categoryNoList) {
-				if(checkNo == categoryNo) {
-					break;
-				}
+			Long categoryNoCheck = categoryRepository.findCategoryNo(blogId, categoryNo);	
+			if(!categoryNo.equals(categoryNoCheck)) {			
+				categoryNo = null;
 			}
-			categoryNo = null;
 		}
 		
-		// 입력 안받으면 그냥 제일 처음 만들어진 카테고리를 불러온다.
+		// 입력 안받거나 잘못된 값이 들어온 경우 그냥 제일 처음 만들어진 카테고리를 불러온다.
 		if(categoryNo == null) {
 			categoryNo = categoryList.get(0).getNo();
 		}
 				
 		List<PostVo> postList = postRepository.findPostAll(categoryNo);
 		
-		System.out.println(blogVo);
-		System.out.println(categoryList);
-		System.out.println(postList);
-				
+		Long categoryCount = categoryRepository.findCategoryCount(blogId);
+		
 		map.put("blogVo", blogVo);
 		map.put("categoryList", categoryList);
 		map.put("postList", postList);
+		map.put("categoryCount", categoryCount);
 		
 		return map;
 	}

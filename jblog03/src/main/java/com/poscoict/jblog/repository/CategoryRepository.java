@@ -1,10 +1,10 @@
 package com.poscoict.jblog.repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -24,16 +24,22 @@ public class CategoryRepository {
 		return 1 == sqlSession.insert("category.insert", categoryVo);
 	}
 
-	public Boolean delete(Long categoryNo) {
-		return 1 == sqlSession.delete("category.delete", categoryNo);
+	public Boolean delete(String blogId, Long categoryNo) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("blogId", blogId);
+		map.put("categoryNo", categoryNo);
+		return 1 == sqlSession.delete("category.delete", map);
 	}
 	
 	public List<CategoryVo> findCategoryAll(String blogId) {
 		return sqlSession.selectList("category.findCategoryAll", blogId);
 	}
 	
-	public List<Long> findCategoryNo(String blogId){
-		return sqlSession.selectList("category.findCategoryNo", blogId);
+	public Long findCategoryNo(String blogId, Long categoryNo){
+		Map<String, Object> map = new HashMap<>();
+		map.put("blogId", blogId);
+		map.put("categoryNo", categoryNo);
+		return sqlSession.selectOne("category.findCategoryNo", map);
 	}
 
 	public List<CategoryVo> findCategoryNoAndName(String blogId){
@@ -42,6 +48,10 @@ public class CategoryRepository {
 	
 	public List<CategoryVo> findCategoryAndPostnum(String blogId) {
 		return sqlSession.selectList("category.findCategoryAndPostnum", blogId);
+	}
+	
+	public Long findCategoryCount(String blodId) {
+		return sqlSession.selectOne("category.findCategoryCount", blodId);
 	}
 	
 }

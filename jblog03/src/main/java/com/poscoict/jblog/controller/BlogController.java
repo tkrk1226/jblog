@@ -54,11 +54,7 @@ public class BlogController {
 	
 	@RequestMapping(value={"/admin", "/admin/basic"}, method=RequestMethod.GET)
 	public String basic(@PathVariable("blogId") String blogId, Model model, @AuthUser UserVo authUser) {
-		
-		System.out.println("======================================================================");
-		System.out.println(authUser);
-		System.out.println("======================================================================");
-		
+
 		if(authUser == null || !blogId.equals(authUser.getId())) {
 			return "redirect:/";
 		}
@@ -119,16 +115,28 @@ public class BlogController {
 		return "redirect:/" + authUser.getId() + "/admin/category";
 	}
 	
-	@RequestMapping(value="/admin/category/delete/{categoryNo}")
-	public String deleteCategory(@PathVariable("blogId") String blogId,
+	@RequestMapping(value= {"/admin/category/delete/{categoryNo}", "/admin/category/delete/{categoryNo}/{postNo}"})
+	public String delete(@PathVariable("blogId") String blogId,
 			@PathVariable("categoryNo") Long categoryNo,
+			@PathVariable(required = false) Long postNo,
 			@AuthUser UserVo authUser) {
 
+		Boolean result = false;
+		
 		if(authUser == null || !blogId.equals(authUser.getId())) {
 			return "redirect:/";
 		}
 		
-		Boolean result = categoryService.deleteCategory(authUser.getId(), categoryNo);
+		if(postNo == null) {
+			if(categoryService.getCategoryCount(authUser.getId()) > 1) {
+			result = categoryService.deleteCategory(authUser.getId(), categoryNo);
+			}
+			else {
+				return "redirect:/" + authUser.getId() + "/admin/category";
+			}
+		} else {
+			result = postService.deletePost(authUser.getId(), categoryNo, postNo);
+		}
 		
 		if(!result) {
 			return "redirect:/";
@@ -136,7 +144,7 @@ public class BlogController {
 		
 		return "redirect:/" + authUser.getId() + "/admin/category";
 	}
-	
+		
 	@RequestMapping(value="/admin/write", method=RequestMethod.GET)
 	public String write(@PathVariable("blogId") String blogId, Model model, @AuthUser UserVo authUser) {
 		

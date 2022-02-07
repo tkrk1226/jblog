@@ -28,4 +28,9 @@
 	</choose>
 	</select>
 	
+	<delete id="delete" parameterType="map">
+	 <![CDATA[]]>
+	 delete from post where category_no = (select no from category where no = #{categoryNo} and blog_id = #{blogId}) and no = #{postNo}
+	</delete>
+	
 </mapper>

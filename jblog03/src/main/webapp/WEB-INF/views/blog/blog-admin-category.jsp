@@ -31,11 +31,15 @@
 					<c:forEach items="${categoryList}" var="vo" varStatus="status">
 						<tr>
 							<td>${status.count}</td>
-							<td>${vo.name}</td>
+							<td>
+								<a href="${pageContext.request.contextPath}/${authUser.id}/admin/category/${vo.no}">
+									${vo.name}
+								</a>
+							</td>
 							<td>${vo.postCount}</td>
 							<td>${vo.description}</td>
 							<td>
-								<c:if test="${vo.postCount eq 0}">
+								<c:if test="${categoryCount > 1 && vo.postCount == 0}">
 									<a href="${pageContext.request.contextPath}/${authUser.id}/admin/category/delete/${vo.no}">
 										<img src="${pageContext.request.contextPath}/assets/images/delete.jpg">
 									</a>
@@ -52,11 +56,11 @@
 		      		<table id="admin-cat-add">
 			      		<tr>
 			      			<td class="t">카테고리명</td>
-			      			<td><input type="text" name="name"></td>
+			      			<td><input type="text" name="name" required></td>
 			      		</tr>
 			      		<tr>
 			      			<td class="t">설명</td>
-			      			<td><input type="text" name="description"></td>
+			      			<td><input type="text" name="description" required></td>
 			      		</tr>
 			      		<tr>
 			      			<td class="s">&nbsp;</td>
@@ -64,6 +68,28 @@
 			      		</tr>
 		      		</table> 
 		      	</form>
+		      	<table class="admin-cat">
+		      		
+		      		<c:if test="${fn:length(postList) > 0}">
+			      		<tr>
+			      			<th>글 제목</th>
+			      			<th>삭제</th>      			
+			      		</tr>
+		      		</c:if>
+					<c:forEach items="${postList}" var="vo" varStatus="status">
+					<tr>
+						<td>
+							${vo.title}
+						</td>
+						<td>				
+							<a href="${pageContext.request.contextPath}/${authUser.id}/admin/category/delete/${vo.categoryNo}/${vo.no}">
+								<img src="${pageContext.request.contextPath}/assets/images/delete.jpg">
+							</a>
+						</td>
+					</tr>
+					</c:forEach>
+				</table>
+		      
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/footer.jsp"/>	

@@ -33,13 +33,11 @@ public class CategoryService {
 			return false;
 		}
 		
-		List<Long> categoryNoList = categoryRepository.findCategoryNo(blogId);
-		
-		for(Long checkNo : categoryNoList) {
-			if(checkNo == categoryNo) {				
-				return categoryRepository.delete(categoryNo);
-			}
-		}
-		return false;
+		return categoryRepository.delete(blogId, categoryNo);
 	}
+	
+	public Long getCategoryCount(String blogId) {
+		return categoryRepository.findCategoryCount(blogId);
+	}
+	
 }
