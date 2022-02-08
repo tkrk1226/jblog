@@ -87,5 +87,5 @@
 	</bean>
 	
 	<context:annotation-config />
-	<context:component-scan base-package="com.poscoict.jblog.controller" />	
+	<context:component-scan base-package="com.poscoict.jblog.controller, com.poscoict.jblog.exception" />	
 </beans>
