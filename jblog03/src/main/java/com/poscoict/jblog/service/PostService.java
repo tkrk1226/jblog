@@ -15,13 +15,4 @@ public class PostService {
 	public Boolean addPost(PostVo postVo) {
 		return postRepository.insert(postVo);
 	}
-
-	public Boolean deletePost(String blogId, Long categoryNo, Long postNo) {
-		
-		if(blogId == null || categoryNo == null) {
-			return false;
-		}
-		
-		return postRepository.delete(blogId, categoryNo, postNo);
-	}
 }

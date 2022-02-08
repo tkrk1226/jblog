@@ -49,9 +49,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 		// 6. blogId with authUser.id check
 		String uri = request.getRequestURI();
-		System.out.println("=============================================================");
-		System.out.println(uri);
-		System.out.println("=============================================================");
 		String blogId = uri.split("/")[2];
 		
 		if(!blogId.equals(authUser.getId())) {

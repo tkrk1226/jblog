@@ -27,17 +27,4 @@ public class CategoryService {
 		return categoryRepository.findCategoryAndPostnum(blogId);
 	}
 	
-	public Boolean deleteCategory(String blogId, Long categoryNo) {
-		
-		if(blogId == null || categoryNo == null) {
-			return false;
-		}
-		
-		return categoryRepository.delete(blogId, categoryNo);
-	}
-	
-	public Long getCategoryCount(String blogId) {
-		return categoryRepository.findCategoryCount(blogId);
-	}
-	
 }

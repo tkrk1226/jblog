@@ -22,11 +22,8 @@ public class BlogInterceptor extends HandlerInterceptorAdapter {
 		if (blogVo == null) {
 			response.sendRedirect(request.getContextPath());
 			return false;
-		}
-		
+		}		
 		request.setAttribute("blogVo", blogVo);
-		
 		return true;
 	}
-
 }

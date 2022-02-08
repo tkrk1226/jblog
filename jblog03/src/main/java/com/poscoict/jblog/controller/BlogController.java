@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.poscoict.jblog.security.Auth;
 import com.poscoict.jblog.security.AuthUser;
 import com.poscoict.jblog.service.BlogService;
@@ -35,7 +36,7 @@ public class BlogController {
 	private PostService postService;
 	
 	// 메인 페이지
-	@RequestMapping(value={"", "/{categoryNo}", "/{categoryNo}/{postNo}"})
+	@RequestMapping(value={"", "/{categoryNo:^[0-9]+$}", "/{categoryNo:^[0-9]+$}/{postNo:^[0-9]+$}"})
 	public String main(@PathVariable("blogId") String blogId,
 			@PathVariable(required = false) Long categoryNo,
 			@PathVariable(required = false) Long postNo,
@@ -93,33 +94,14 @@ public class BlogController {
 	
 	// 어드민 페이지(2), category or post 삭제
 	@Auth
-	@RequestMapping(value= {"/admin/category/delete/{categoryNo}", "/admin/category/delete/{categoryNo}/{postNo}"})
+	@RequestMapping(value= {"/admin/category/delete", "/admin/category/delete/{categoryNo}", "/admin/category/delete/{categoryNo}/{postNo}"})
 	public String delete(@PathVariable("blogId") String blogId,
-			@PathVariable("categoryNo") Long categoryNo,
+			@PathVariable(required = false) Long categoryNo,
 			@PathVariable(required = false) Long postNo,
 			@AuthUser UserVo authUser) {
-		
-		Boolean result = false;
+				
+		Boolean result = blogService.deleteCategoryOrPost(authUser.getId(), categoryNo, postNo);
 
-		// post or category 삭제 확인
-		if(postNo == null) {
-			// category에 2개 이상인 경우만 카테고리 삭제 가능
-			if(categoryService.getCategoryCount(authUser.getId()) > 1) {
-				result = categoryService.deleteCategory(authUser.getId(), categoryNo);
-			}
-			else {
-				return "redirect:/" + authUser.getId() + "/admin/category";
-			}
-		// postNo 있는 경우 삭제
-		} else {
-			result = postService.deletePost(authUser.getId(), categoryNo, postNo);
-		}
-		
-		// 동작이 잘못된 경우 다시 메인으로...
-		if(!result) {
-			return "redirect:/";
-		}
-		
 		return "redirect:/" + authUser.getId() + "/admin/category";
 	}
 	

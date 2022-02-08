@@ -24,6 +24,10 @@ public class PostRepository {
 		return sqlSession.selectOne("post.findPost", postNo);
 	}
 	
+	public Long findPostCountByCategoryNo(Long categoryNo) {
+		return sqlSession.selectOne("post.findPostCountByCategoryNo", categoryNo);
+	}
+	
 	public Boolean insert(PostVo postVo) {
 		return 1 == sqlSession.insert("post.insert", postVo);
 	}

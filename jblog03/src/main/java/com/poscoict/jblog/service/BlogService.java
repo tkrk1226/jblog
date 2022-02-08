@@ -41,11 +41,11 @@ public class BlogService {
 		Long categoryNo = paramCategoryNo;
 		Long postNo = paramPostNo;
 		
-		BlogVo blogVo = blogRepository.findBlog(blogId);
-		
-		if(blogVo == null) {
-			return null;
-		}
+//		BlogVo blogVo = blogRepository.findBlog(blogId);
+//		
+//		if(blogVo == null) {
+//			return null;
+//		}
 		
 		List<CategoryVo> categoryList = categoryRepository.findCategoryAll(blogId);	
 		
@@ -69,7 +69,7 @@ public class BlogService {
 		
 		PostVo postVo = postRepository.findPost(postNo);
 		
-		map.put("blogVo", blogVo);
+//		map.put("blogVo", blogVo);
 		map.put("categorylist", categoryList);
 		map.put("postList", postList);
 		map.put("postVo", postVo);
@@ -83,11 +83,11 @@ public class BlogService {
 		
 		Long categoryNo = paramCategoryNo;
 		
-		BlogVo blogVo = blogRepository.findBlog(blogId);
-		
-		if(blogVo == null) {
-			return null;
-		}
+//		BlogVo blogVo = blogRepository.findBlog(blogId);
+//		
+//		if(blogVo == null) {
+//			return null;
+//		}
 		
 		List<CategoryVo> categoryList = categoryRepository.findCategoryAndPostnum(blogId);		
 		
@@ -107,7 +107,7 @@ public class BlogService {
 		
 		Long categoryCount = categoryRepository.findCategoryCount(blogId);
 		
-		map.put("blogVo", blogVo);
+//		map.put("blogVo", blogVo);
 		map.put("categoryList", categoryList);
 		map.put("postList", postList);
 		map.put("categoryCount", categoryCount);
@@ -138,6 +138,33 @@ public class BlogService {
 		} else {
 			return false;
 		}		
+	}
+	
+	public Boolean deleteCategoryOrPost(String blogId, Long categoryNo, Long postNo) {
+		Boolean result = false;
+		
+		if(categoryNo == null && postNo == null) {
+			return false;
+		}
+		
+		// 잘못된 카테고리 삭제 시도
+		Long categoryNoCheck = categoryRepository.findCategoryNo(blogId, categoryNo);	
+		if(!categoryNo.equals(categoryNoCheck)) {			
+			return false;
+		}
+		
+		// post or category 삭제 확인
+		if(postNo == null) {
+			// category에 2개 이상인 경우만 카테고리 삭제 가능
+			if(categoryRepository.findCategoryCount(blogId) > 1 && postRepository.findPostCountByCategoryNo(categoryNo) == 0) {		
+				result = categoryRepository.delete(blogId, categoryNo);
+			}
+		// postNo 있는 경우 삭제
+		} else {
+			result = postRepository.delete(blogId, categoryNo, postNo);
+		}		
+		
+		return result;
 	}
 	
 	public String restore(MultipartFile multipartFile) {
@@ -185,6 +212,4 @@ public class BlogService {
 		
 		return filename;
 	}
-
-
 }
