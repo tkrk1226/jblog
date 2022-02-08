@@ -21,11 +21,20 @@
 						${fn:replace(postVo.contents, newline, "<br/>") }
 					<p>
 				</div>
-				<ul class="blog-list">
-					<c:forEach items="${postList}" var="vo" varStatus="status">
-					<li><a href="${pageContext.request.contextPath}/${blogVo.userId}/${vo.categoryNo}/${vo.no}">${vo.title}</a> <span>${vo.regDate}</span>	</li>
-					</c:forEach>
-				</ul>
+				<c:choose>
+					<c:when test="${fn:length(postList) > 0}">
+						<ul class="blog-list">
+							<c:forEach items="${postList}" var="vo" varStatus="status">
+								<li><a href="${pageContext.request.contextPath}/${blogVo.userId}/${vo.categoryNo}/${vo.no}">${vo.title}</a> <span>${vo.regDate}</span>	</li>
+							</c:forEach>
+						</ul>
+					</c:when>
+					<c:otherwise>
+						<h1>작성된 글이 없습니다...</h1>
+					</c:otherwise>
+				</c:choose>
+				
+
 			</div>
 		</div>
 

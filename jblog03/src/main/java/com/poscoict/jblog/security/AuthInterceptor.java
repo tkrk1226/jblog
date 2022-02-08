@@ -29,7 +29,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		// 3. Handler Method의 @Auth 받아오기
 		Auth auth = handlerMethod.getMethodAnnotation(Auth.class);
 
-		// 5. type과 method에 @Auth 가 적용이 안되어 있는 경우
+		// 4. type과 method에 @Auth 가 적용이 안되어 있는 경우
 		if (auth == null) {
 			return true;
 		}
@@ -47,6 +47,18 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			return false;
 		}
 
+		// 6. blogId with authUser.id check
+		String uri = request.getRequestURI();
+		System.out.println("=============================================================");
+		System.out.println(uri);
+		System.out.println("=============================================================");
+		String blogId = uri.split("/")[2];
+		
+		if(!blogId.equals(authUser.getId())) {
+			response.sendRedirect(request.getContextPath() + "/" + blogId);
+			return false;
+		}
+		
 		return true;
 	}
 }
