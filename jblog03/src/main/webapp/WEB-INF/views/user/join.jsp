@@ -27,6 +27,7 @@
 				<form:errors path="name" />
 			</p>
 			
+			 
 			<label class="block-label" for="blog-id">아이디</label>
 			<form:input path="id"/>
 			<input id="btn-checkemail" type="button" value="id 중복체크">
