@@ -55,5 +55,6 @@
 
 	<modules>
 		<module>jblog03</module>
+		<module>jblog04</module>
 	</modules>
 </project>
