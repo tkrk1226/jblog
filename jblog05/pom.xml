@@ -149,7 +149,7 @@
 		</dependency>
 
 	</dependencies>
-
+  
 	<build>
 		<finalName>jblog05</finalName>
 		<plugins>
