@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="category">
+
+	<insert id="init" parameterType="string">
+		<![CDATA[
+		insert into category values(null, '미분류', '미분류된 카테고리 입니다.', #{_parameter})
+		]]>
+	</insert>
+	
+	<insert id="insert" parameterType="categoryvo">
+		<![CDATA[
+		insert into category values(null, #{name}, #{description}, #{blogId})
+		]]>
+	</insert>
+	
+	<select id="findCategoryAll" parameterType="string" resultType="categoryvo">
+		<![CDATA[
+		select no, name, description from category where blog_id = #{_parameter} order by no asc
+		]]>
+	</select>
+	
+	<select id="findCategoryNo" parameterType="map" resultType="long">
+		<![CDATA[
+		select no from category where blog_id = #{blogId} and no = #{categoryNo}
+		]]>		
+	</select>
+	
+	<select id="findCategoryNoAndName" parameterType="string" resultType="categoryvo">
+		<![CDATA[
+		select no, name from category where blog_id = #{_parameter} order by no asc
+		]]>		
+	</select>
+	
+	<select id="findCategoryCount" parameterType="string" resultType="long">
+		<![CDATA[
+		select count(*) from category where blog_id = #{_parameter}
+		]]>		
+	</select>
+	
+	<select id="findCategoryAndPostnum" parameterType="string" resultType="categoryvo">
+		<![CDATA[
+		select c.no, c.name, c.description, count(p.no) as postCount from category as c left join post as p on c.no = p.category_no where c.blog_id = #{_parameter} group by c.no order by c.no asc
+		]]>		
+	</select>
+	
+	<delete id="delete" parameterType="map">
+		<![CDATA[
+		delete from category where no = #{categoryNo} and blog_id = #{blogId}
+		]]>	
+	</delete>
+	
+</mapper>

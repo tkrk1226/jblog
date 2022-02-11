@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="post" >
+
+	<insert id="insert" parameterType="postvo">
+		insert into post values(null, #{title}, #{contents}, now(), #{categoryNo})
+	</insert>
+
+	<select id="findPostAll" parameterType="long" resultType="postvo">
+		<![CDATA[
+		select no, title, contents, date_format(reg_date, '%Y/%m/%d') as regDate, category_no as categoryNo from post where category_no = #{_parameter} order by no desc
+		]]>
+	</select>
+	
+	<select id="findPost" parameterType="long" resultType="postvo">
+	<choose>
+		<when test="_parameter == null">
+		<![CDATA[
+		select no, title, contents, date_format(reg_date, '%Y/%m/%d') as regDate, category_no as categoryNo from post where no = -1
+		]]>
+		</when>
+		<otherwise>
+		<![CDATA[
+		select no, title, contents, date_format(reg_date, '%Y/%m/%d') as regDate, category_no as categoryNo from post where no = #{_parameter}
+		]]>
+		</otherwise>
+	</choose>
+	</select>
+	
+	<delete id="delete" parameterType="map">
+		<![CDATA[
+		delete from post where category_no = (select no from category where no = #{categoryNo} and blog_id = #{blogId}) and no = #{postNo}
+		]]>
+	</delete>
+	
+	<select id="findPostCountByCategoryNo" parameterType="long" resultType="long">
+		<![CDATA[
+		select count(*) from post where category_no = #{_parameter}
+		]]>
+	</select>
+	
+</mapper>
