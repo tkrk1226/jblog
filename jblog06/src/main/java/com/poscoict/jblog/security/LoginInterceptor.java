@@ -30,6 +30,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		
 		if(authUser == null) {
 			request.setAttribute("id", id);
+			request.setAttribute("result", "fail");
 			// viewResolver가 작동하는 공간이 아니다. , URI
 			request
 			.getRequestDispatcher("/WEB-INF/views/user/login.jsp")

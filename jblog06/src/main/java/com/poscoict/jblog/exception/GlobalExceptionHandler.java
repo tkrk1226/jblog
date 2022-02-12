@@ -18,6 +18,7 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(Exception.class)
 	public String ExceptionHandler(Model model, Exception e) {
+		
 		// 1. 로깅
 		// 나중에 String으로 뽑아서 파일로 저장해야한다.
 		// 혹은 서비스 론칭 전에 개발용으로 할때는 

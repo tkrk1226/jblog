@@ -9,6 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -92,6 +93,15 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addResourceHandler(env.getProperty("fileupload.resourceMapping"))
 		.addResourceLocations("file:" + env.getProperty("fileupload.uploadLocation"));		
 
+		registry.addResourceHandler(env.getProperty("assets.resourceMapping"))
+		.addResourceLocations("classpath:" + env.getProperty("assets.resourceLocation")); 
+
 	}
+
+	// DefaultServlet Handler
+//	@Override
+//	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+//		configurer.enable();
+//	}
 	
 }

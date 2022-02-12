@@ -16,13 +16,15 @@ public class BlogInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		
 		String uri = request.getRequestURI();
 		String blogId = uri.split("/")[2];
-		BlogVo blogVo = blogService.getBlog(blogId);
+		BlogVo blogVo = blogService.getBlog(blogId);		
+		
 		if (blogVo == null) {
 			response.sendRedirect(request.getContextPath());
 			return false;
-		}		
+		}		 
 		request.setAttribute("blogVo", blogVo);
 		return true;
 	}

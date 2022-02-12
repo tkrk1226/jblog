@@ -70,7 +70,7 @@ public class BlogController {
 	
 	// 어드민 페이지(2), 카테고리 및 글 관리
 	@Auth
-	@RequestMapping(value={"/admin/category", "/admin/category/{categoryNo}"}, method=RequestMethod.GET)
+	@RequestMapping(value={"/admin/category", "/admin/category/{categoryNo:^[0-9]+$}"}, method=RequestMethod.GET)
 	public String category(@PathVariable("blogId") String blogId, Model model,
 			@PathVariable(required = false) Long categoryNo, @AuthUser UserVo authUser) {
 		
@@ -94,7 +94,7 @@ public class BlogController {
 	
 	// 어드민 페이지(2), category or post 삭제
 	@Auth
-	@RequestMapping(value= {"/admin/category/delete", "/admin/category/delete/{categoryNo}", "/admin/category/delete/{categoryNo}/{postNo}"})
+	@RequestMapping(value= {"/admin/category/delete", "/admin/category/delete/{categoryNo:^[0-9]+$}", "/admin/category/delete/{categoryNo:^[0-9]+$}/{postNo:^[0-9]+$}"})
 	public String delete(@PathVariable("blogId") String blogId,
 			@PathVariable(required = false) Long categoryNo,
 			@PathVariable(required = false) Long postNo,

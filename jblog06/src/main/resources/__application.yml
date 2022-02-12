@@ -83,6 +83,7 @@ server:
          force: false
          force-request: false
          force-response: false
+      register-default-servlet: false
 
 ---
 
